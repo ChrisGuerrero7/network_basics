@@ -1,4 +1,7 @@
 def to_binary(number):
+    """
+    Esta funcion se encarga de convertir un numero decimal en binario.
+    """
     list_binary = []
     number_convert = number
     for i in range(7,-1,-1):
