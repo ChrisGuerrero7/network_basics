@@ -1,6 +1,27 @@
 from binary import to_decimal, to_binary
 
 
+def class_decimal(ip):
+    """
+    Esta funcion se encarga de determinar a que clase pertenece la direccion ip ingresada.
+    """
+    ip_list = ip.split(sep='.')
+    first_octect = int(ip_list[0])
+    class_ip = ''
+    if first_octect >= 0 and first_octect < 128:
+        class_ip = 'A'
+    elif first_octect >= 128 and first_octect < 192:
+        class_ip = 'B'
+    elif first_octect >= 192 and first_octect < 224:
+        class_ip = 'C'
+    elif first_octect >= 224 and first_octect < 240:
+        class_ip = 'D'
+    elif first_octect >= 240 and first_octect < 256:
+        class_ip = 'E'
+
+    return class_ip
+
+
 def is_ip_decimal(ip):
     """
     Esta funcion se encarga de verificar si la direccion ip ingresada es correcta.
@@ -40,6 +61,8 @@ def run():
         binary_list = binary_notation(ip_decimal)
         binary_str = '.'.join(binary_list)
         print('Notacion Binaria: ' + binary_str)
+        ip_class = class_decimal(ip_decimal)
+        print('Clase de direccion ip: ' + ip_class)
     else:
         print('La direccion ingresada no es correcta. Intenta nuevamente')
 
