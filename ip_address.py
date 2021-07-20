@@ -1,6 +1,35 @@
 from binary import to_decimal, to_binary
 
 
+def netmask(prefix):
+    """
+    Esta funcion se encarga de convertir el prefijo de longitud en mascara de red.
+    """
+    num_prefix = prefix
+    mask_list = []
+    octect_mask = ''
+    for i in range(4):
+        if num_prefix % 8 == 0:
+            if num_prefix == 0:
+                octect_mask = '0' * 8
+                num_prefix = 0
+            else:
+                octect_mask = '1' * 8
+                num_prefix = num_prefix - 8
+        else:
+            if num_prefix > 8:
+                octect_mask = '1' * 8
+                num_prefix = num_prefix - 8
+            elif num_prefix < 8:
+                bit_up = num_prefix
+                bit_down = 8 - bit_up
+                octect_mask = '1' * (bit_up) + '0' * (bit_down)
+                num_prefix = 0
+        mask_list.append(octect_mask)
+        octect_mask = ''
+    return mask_list
+
+
 def is_ip_decimal(ip):
     """
     Esta funcion se encarga de verificar si la direccion ip ingresada es correcta.
@@ -52,13 +81,14 @@ def run():
             else:
                 print('La direccion ingresada no es correcta. Intenta nuevamente')
         elif option == '2':
-            #mask_decimal = input("\nIndica la mascara de red en decimal: ")
-            #is_mask = is_mask_decimal(mask_decimal)
-            #if is_mask == True:
-            #    mask_binary = netmask(mask_decimal)
-            #    mask_binary_str = '.'.join(mask_binary)
-            #    print('Mascara de red en binario: ' + mask_binary_str)
-            pass
+            prefix_length = int(input("\nIndica el prefijo de longitud: "))
+            if prefix_length <= 32:
+                mask_bin = netmask(prefix_length)
+                mask_dec = [str(to_decimal(x)) for x in mask_bin]
+                mask_str = '.'.join(mask_dec)
+                print('Mascara de red: ' + mask_str)
+            else:
+                print('Es una mascara de red invalida!')
         elif option == '3':
             print('\nGRACIAS. VUELVE PRONTO!')
             break
