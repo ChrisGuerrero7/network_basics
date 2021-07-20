@@ -34,14 +34,36 @@ def binary_notation(ip_decimal):
 
 
 def run():
-    ip_decimal = input("Indica la direccion IP en decimal: ")
-    is_ip = is_ip_decimal(ip_decimal)
-    if is_ip == True:
-        binary_list = binary_notation(ip_decimal)
-        binary_str = '.'.join(binary_list)
-        print('Notacion Binaria: ' + binary_str)
-    else:
-        print('La direccion ingresada no es correcta. Intenta nuevamente')
+    MENU_MAIN = """
+    DIRECCION IP Y MASCARA DE RED
+    1. Direccion IP
+    2. Mascara de red
+    3. Salir
+    Elige una opcion: """
+    while True:
+        option = input(MENU_MAIN)
+        if option == '1':
+            ip_decimal = input("\nIndica la direccion IP en decimal: ")
+            is_ip = is_ip_decimal(ip_decimal)
+            if is_ip == True:
+                binary_list = binary_notation(ip_decimal)
+                binary_str = '.'.join(binary_list)
+                print('Notacion Binaria: ' + binary_str)
+            else:
+                print('La direccion ingresada no es correcta. Intenta nuevamente')
+        elif option == '2':
+            #mask_decimal = input("\nIndica la mascara de red en decimal: ")
+            #is_mask = is_mask_decimal(mask_decimal)
+            #if is_mask == True:
+            #    mask_binary = netmask(mask_decimal)
+            #    mask_binary_str = '.'.join(mask_binary)
+            #    print('Mascara de red en binario: ' + mask_binary_str)
+            pass
+        elif option == '3':
+            print('\nGRACIAS. VUELVE PRONTO!')
+            break
+        else:
+            print('\nOpcion Incorrecta. Intenta nuevamente.')
 
 
 if __name__ == '__main__':
