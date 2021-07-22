@@ -134,6 +134,18 @@ def binary_notation(ip_decimal):
     return ip_binary_list
 
 
+def is_ip_binary(ip):
+    """
+    Esta funcion se encarga de verificar si una direccion ip en notacion binaria ingresada es correcta.
+    """
+
+
+def dotted_decimal(ip):
+    """
+    Esta funcion se encarga de convertir una direccion IP eb notacion binaria a decimal.
+    """
+
+
 def run():
     MENU_MAIN = """
     DIRECCION IP Y MASCARA DE RED
@@ -146,20 +158,37 @@ def run():
     1. Convertir de prefijo de longitud a netmask
     2. Convertir de netmask a prefijo de longitud
     Elige una opcion: """
+    MENU_IP = """
+    DIRECCION IP
+    1. Convertir de IP decimal a Notacion Binaria
+    2. Convertir de Notacion Binaria a IP decimal"""
     while True:
         option = input(MENU_MAIN)
         if option == '1':
-            ip_decimal = input("\nIndica la direccion IP en decimal: ")
-            is_ip = is_ip_decimal(ip_decimal)
-            if is_ip == True:
-                binary_list = binary_notation(ip_decimal)
-                binary_str = '.'.join(binary_list)
-                print('Notacion Binaria: ' + binary_str)
-                ip_class = class_decimal(ip_decimal)
-                print('Clase de direccion ip: ' + ip_class[0])
-                print('Prefix Length: ' + str(ip_class[1]))
+            option_ip = input(MENU_IP)
+            if option_ip == '1':
+                ip_decimal = input("\nIndica la direccion IP en decimal: ")
+                is_ip = is_ip_decimal(ip_decimal)
+                if is_ip == True:
+                    binary_list = binary_notation(ip_decimal)
+                    binary_str = '.'.join(binary_list)
+                    print('Notacion Binaria: ' + binary_str)
+                    ip_class = class_decimal(ip_decimal)
+                    print('Clase de direccion ip: ' + ip_class[0])
+                    print('Prefix Length: ' + str(ip_class[1]))
+                else:
+                    print('La direccion ingresada no es correcta. Intenta nuevamente')
+            elif option == '2':
+                ip_binary = input("\nIndica la direccion IP en notacion binaria: ")
+                is_notation = is_ip_binary(ip_binary)
+                if is_notation == True:
+                    decimal_list = dotted_decimal(ip_binary)
+                    decimal_str = '.'.join(decimal_list)
+                    print('Direccion IP: ' + decimal_str)
+                else:
+                    pass
             else:
-                print('La direccion ingresada no es correcta. Intenta nuevamente')
+                print('\nOpcion Incorrecta. Intenta nuevamente.')
         elif option == '2':
             option_mask = input(MENU_MASK)
             if option_mask == '1':
