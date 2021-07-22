@@ -1,6 +1,36 @@
 from binary import to_decimal, to_binary
 
 
+def binary_complete(address):
+    """
+    Esta funcion se encarga de convertir una direccion de 4 octetos en binario completo.
+    """
+    address_list = address.split(sep='.')
+    address_binary = []
+
+    for octect in address_list:
+        oct_bin = to_binary(int(octect))
+        address_binary.append(oct_bin)
+    binary = ''.join(address_binary)
+    return binary
+
+
+def premask(mask):
+    """
+    Esta funcion se encarga de convertir la mascara de red en un prefijo de longitud.
+    """
+    binary = binary_complete(mask)
+    count = 0
+    
+    for bit in binary:
+        if bit == '1':
+            count += 1
+        elif bit == '0':
+            continue
+
+    return count
+
+
 def netmask(prefix):
     """
     Esta funcion se encarga de convertir el prefijo de longitud en mascara de red.
@@ -50,6 +80,28 @@ def is_ip_decimal(ip):
     except ValueError:
         return False
 
+def is_mask(mask):
+    """
+    Esta funcion se encarga de verificar si la mascara de red ingresada es correcta.
+    """
+    is_decimal = is_ip_decimal(mask)
+    binary_mask = binary_complete(mask)
+    count = 0
+
+    for i in range(len(binary_mask)):
+        if i == (len(binary_mask) - 1):
+            break
+        
+        if (binary_mask[i] == '0') and (binary_mask[i + 1] == '1'):
+            count += 1
+        else:
+            continue
+
+    if is_decimal == True and count == 0:
+        return True
+    else:
+        return False
+
 
 def binary_notation(ip_decimal):
     """
@@ -69,6 +121,11 @@ def run():
     2. Mascara de red
     3. Salir
     Elige una opcion: """
+    MENU_MASK = """
+    MASCARA DE RED
+    1. Convertir de prefijo de longitud a netmask
+    2. Convertir de netmask a prefijo de longitud
+    Elige una opcion: """
     while True:
         option = input(MENU_MAIN)
         if option == '1':
@@ -81,14 +138,26 @@ def run():
             else:
                 print('La direccion ingresada no es correcta. Intenta nuevamente')
         elif option == '2':
-            prefix_length = int(input("\nIndica el prefijo de longitud: "))
-            if prefix_length <= 32:
-                mask_bin = netmask(prefix_length)
-                mask_dec = [str(to_decimal(x)) for x in mask_bin]
-                mask_str = '.'.join(mask_dec)
-                print('Mascara de red: ' + mask_str)
+            option_mask = input(MENU_MASK)
+            if option_mask == '1':
+                prefix_length = int(input("\nIndica el prefijo de longitud: "))
+                if prefix_length <= 32:
+                    mask_bin = netmask(prefix_length)
+                    mask_dec = [str(to_decimal(x)) for x in mask_bin]
+                    mask_str = '.'.join(mask_dec)
+                    print('Mascara de red: ' + mask_str)
+                else:
+                    print('Es una mascara de red invalida!')
+            elif option_mask == '2':
+                net_mask = input("\nIndica la mascara de red: ")
+                is_netmask = is_mask(net_mask)
+                if is_netmask == True:
+                    prefix = premask(net_mask)
+                    print('Prefijo de longitud: ' + str(prefix))
+                else:
+                    print('La mascara ingresada no es correcta. Intenta nuevamente.')
             else:
-                print('Es una mascara de red invalida!')
+                print('\nOpcion Incorrecta. Intenta nuevamente.')
         elif option == '3':
             print('\nGRACIAS. VUELVE PRONTO!')
             break
