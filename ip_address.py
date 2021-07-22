@@ -1,4 +1,4 @@
-from binary import to_decimal, to_binary
+from binary import to_decimal, to_binary, is_binary
 
 
 def binary_complete(address):
@@ -138,6 +138,23 @@ def is_ip_binary(ip):
     """
     Esta funcion se encarga de verificar si una direccion ip en notacion binaria ingresada es correcta.
     """
+    try:
+        ip_list = ip.split(sep='.')
+        binary = ''.join(ip_list)
+        count = 0
+        for octect in ip_list:
+            if is_binary(octect) == True:
+                continue
+            else:
+                count += 1
+
+        if count == 0 and len(ip_list) == 4 and len(binary) == 32:
+            return True
+        else:
+            return False
+
+    except ValueError:
+        return False
 
 
 def dotted_decimal(ip):
@@ -161,7 +178,8 @@ def run():
     MENU_IP = """
     DIRECCION IP
     1. Convertir de IP decimal a Notacion Binaria
-    2. Convertir de Notacion Binaria a IP decimal"""
+    2. Convertir de Notacion Binaria a IP decimal
+    Elige una opcion: """
     while True:
         option = input(MENU_MAIN)
         if option == '1':
@@ -178,15 +196,16 @@ def run():
                     print('Prefix Length: ' + str(ip_class[1]))
                 else:
                     print('La direccion ingresada no es correcta. Intenta nuevamente')
-            elif option == '2':
+            elif option_ip == '2':
                 ip_binary = input("\nIndica la direccion IP en notacion binaria: ")
                 is_notation = is_ip_binary(ip_binary)
                 if is_notation == True:
-                    decimal_list = dotted_decimal(ip_binary)
-                    decimal_str = '.'.join(decimal_list)
-                    print('Direccion IP: ' + decimal_str)
+                    #decimal_list = dotted_decimal(ip_binary)
+                    #decimal_str = '.'.join(decimal_list)
+                    #print('Direccion IP: ' + decimal_str)
+                    print('Direccion correcta')
                 else:
-                    pass
+                    print('La direccion ingresada no es correcta. Intenta nuevamente')
             else:
                 print('\nOpcion Incorrecta. Intenta nuevamente.')
         elif option == '2':
