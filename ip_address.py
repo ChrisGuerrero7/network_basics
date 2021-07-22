@@ -159,8 +159,15 @@ def is_ip_binary(ip):
 
 def dotted_decimal(ip):
     """
-    Esta funcion se encarga de convertir una direccion IP eb notacion binaria a decimal.
+    Esta funcion se encarga de convertir una direccion IP en notacion binaria a decimal.
     """
+    ip_list = ip.split(sep='.')
+    ip_decimal = []
+    for octect in ip_list:
+        oct_dec = to_decimal(octect)
+        ip_decimal.append(str(oct_dec))
+
+    return ip_decimal
 
 
 def run():
@@ -200,10 +207,9 @@ def run():
                 ip_binary = input("\nIndica la direccion IP en notacion binaria: ")
                 is_notation = is_ip_binary(ip_binary)
                 if is_notation == True:
-                    #decimal_list = dotted_decimal(ip_binary)
-                    #decimal_str = '.'.join(decimal_list)
-                    #print('Direccion IP: ' + decimal_str)
-                    print('Direccion correcta')
+                    decimal_list = dotted_decimal(ip_binary)
+                    decimal_str = '.'.join(decimal_list)
+                    print('Direccion IP: ' + decimal_str)
                 else:
                     print('La direccion ingresada no es correcta. Intenta nuevamente')
             else:
