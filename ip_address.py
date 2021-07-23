@@ -3,7 +3,7 @@ from binary import to_decimal, to_binary, is_binary
 
 def binary_complete(address):
     """
-    Esta funcion se encarga de convertir una direccion de 4 octetos en binario completo.
+    This function provides 4 octect address conversion to full binary.
     """
     address_list = address.split(sep='.')
     address_binary = []
@@ -17,7 +17,7 @@ def binary_complete(address):
 
 def premask(mask):
     """
-    Esta funcion se encarga de convertir la mascara de red en un prefijo de longitud.
+    This function provides conversion of network mask to prefix length.
     """
     binary = binary_complete(mask)
     count = 0
@@ -33,7 +33,7 @@ def premask(mask):
 
 def netmask(prefix):
     """
-    Esta funcion se encarga de convertir el prefijo de longitud en mascara de red.
+    This function provides conversion of prefix length to network mask.
     """
     num_prefix = prefix
     mask_list = []
@@ -58,9 +58,11 @@ def netmask(prefix):
         mask_list.append(octect_mask)
         octect_mask = ''
     return mask_list
+
+
 def class_decimal(ip):
     """
-    Esta funcion se encarga de determinar a que clase pertenece la direccion ip ingresada y cual es su mascara de red.
+    This function provides class determination of the IP address and network mask
     """
     classes = {'A': 8, 'B': 16, 'C': 24, 'D': 0, 'E': 0}
     ip_list = ip.split(sep='.')
@@ -82,7 +84,7 @@ def class_decimal(ip):
 
 def is_ip_decimal(ip):
     """
-    Esta funcion se encarga de verificar si la direccion ip ingresada es correcta.
+    This function provides ip address verification in decimal notation.
     """
     try:
         ip_list = ip.split(sep='.')
@@ -99,10 +101,11 @@ def is_ip_decimal(ip):
             return False
     except ValueError:
         return False
+      
 
 def is_mask(mask):
     """
-    Esta funcion se encarga de verificar si la mascara de red ingresada es correcta.
+    This function provides network mask verification.
     """
     is_decimal = is_ip_decimal(mask)
     binary_mask = binary_complete(mask)
@@ -125,7 +128,7 @@ def is_mask(mask):
 
 def binary_notation(ip_decimal):
     """
-    Esta funcion se encarga de convertir la direccion ip decimal en notacion binaria.
+    This function provides conversion of ip address in decimal to binary notation.
     """
     ip_decimal_list = ip_decimal.split(sep='.')
     ip_binary_list = []
@@ -136,7 +139,7 @@ def binary_notation(ip_decimal):
 
 def is_ip_binary(ip):
     """
-    Esta funcion se encarga de verificar si una direccion ip en notacion binaria ingresada es correcta.
+    This function provides ip address verification in binary notation.
     """
     try:
         ip_list = ip.split(sep='.')
@@ -159,7 +162,7 @@ def is_ip_binary(ip):
 
 def dotted_decimal(ip):
     """
-    Esta funcion se encarga de convertir una direccion IP en notacion binaria a decimal.
+    This function provides conversion of ip address in binary to decimal notation.
     """
     ip_list = ip.split(sep='.')
     ip_decimal = []
@@ -171,6 +174,11 @@ def dotted_decimal(ip):
 
 
 def run():
+    """
+    This function gives us tools to convert  IP addresses and network mask.
+    """
+
+    # INPUT MENUS
     MENU_MAIN = """
     DIRECCION IP Y MASCARA DE RED
     1. Direccion IP
@@ -187,13 +195,21 @@ def run():
     1. Convertir de IP decimal a Notacion Binaria
     2. Convertir de Notacion Binaria a IP decimal
     Elige una opcion: """
+
+    # WORKLOOP
     while True:
         option = input(MENU_MAIN)
+
+        # IP ADDRESS OPTION
         if option == '1':
             option_ip = input(MENU_IP)
+
+            # Converting the ip address to binary
             if option_ip == '1':
                 ip_decimal = input("\nIndica la direccion IP en decimal: ")
                 is_ip = is_ip_decimal(ip_decimal)
+
+                # Verification of ip addess
                 if is_ip == True:
                     binary_list = binary_notation(ip_decimal)
                     binary_str = '.'.join(binary_list)
@@ -201,43 +217,68 @@ def run():
                     ip_class = class_decimal(ip_decimal)
                     print('Clase de direccion ip: ' + ip_class[0])
                     print('Prefix Length: ' + str(ip_class[1]))
+                # Wrong ip address
                 else:
                     print('La direccion ingresada no es correcta. Intenta nuevamente')
+
+            # Converting the binary notation to decimal
             elif option_ip == '2':
                 ip_binary = input("\nIndica la direccion IP en notacion binaria: ")
                 is_notation = is_ip_binary(ip_binary)
+
+                # Verification of binary notation
                 if is_notation == True:
                     decimal_list = dotted_decimal(ip_binary)
                     decimal_str = '.'.join(decimal_list)
                     print('Direccion IP: ' + decimal_str)
+                # Wrong binary notation
                 else:
                     print('La direccion ingresada no es correcta. Intenta nuevamente')
+
+            # Wrong option
             else:
                 print('\nOpcion Incorrecta. Intenta nuevamente.')
+
+        # MASK OPTION
         elif option == '2':
             option_mask = input(MENU_MASK)
+
+            # Converting the prefix length to netmask
             if option_mask == '1':
                 prefix_length = int(input("\nIndica el prefijo de longitud: "))
+
+                # Verification of prefix length
                 if prefix_length <= 32:
                     mask_bin = netmask(prefix_length)
                     mask_dec = [str(to_decimal(x)) for x in mask_bin]
                     mask_str = '.'.join(mask_dec)
                     print('Mascara de red: ' + mask_str)
+                # Wrong prefix length
                 else:
                     print('Es una mascara de red invalida!')
+
+            # Converting the Netmask to prefix length
             elif option_mask == '2':
                 net_mask = input("\nIndica la mascara de red: ")
                 is_netmask = is_mask(net_mask)
+
+                # Verification of netmask
                 if is_netmask == True:
                     prefix = premask(net_mask)
                     print('Prefijo de longitud: ' + str(prefix))
+                # Wrong netmask
                 else:
                     print('La mascara ingresada no es correcta. Intenta nuevamente.')
+
+            # Wrong option
             else:
                 print('\nOpcion Incorrecta. Intenta nuevamente.')
+
+        # Get out of the loop
         elif option == '3':
             print('\nGRACIAS. VUELVE PRONTO!')
             break
+        # Wrong option
         else:
             print('\nOpcion Incorrecta. Intenta nuevamente.')
 
