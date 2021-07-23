@@ -1,10 +1,3 @@
-MENU = """\nCONVERTIDOR BINARIO
-1. Convierte un numero decimal a octeto binario
-2. Convierte un octeto binario a numero decimal
-3. Salir
-Elige una opcion: """
-
-
 def to_binary(number):
     """
     Esta funcion se encarga de convertir un numero decimal en binario.
@@ -52,6 +45,11 @@ def is_binary(binary):
 
 
 def run():
+    MENU = """\nCONVERTIDOR BINARIO
+1. Convierte un numero decimal a octeto binario
+2. Convierte un octeto binario a numero decimal
+3. Salir
+Elige una opcion: """
     while True:
         option = input(MENU)
         if option == '1':
