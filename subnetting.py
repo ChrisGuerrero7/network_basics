@@ -50,6 +50,31 @@ def get_address(ip, mask, netbit):
     
     ip = '.'.join(dotted_decimal('.'.join(binary_ip)))
     return ip
+
+
+def get_limits(address, add_type):
+    """
+    This function allows us to find the network address range
+    """
+    list_address = address.split('.')
+    last_octect = int(list_address[3])
+    if add_type == "first":
+        last_octect += 1
+    elif add_type == "last":
+        last_octect -= 1
+
+    list_address[3] = str(last_octect)
+    return list_address
+
+
+def get_hosts(mask):
+    """
+    This function allows us to find the hosts number
+    """
+    n_bits = 32 - int(mask)
+    n_hosts = (2 ** n_bits) - 2
+    return n_hosts
+
     
 
 def run():
@@ -64,9 +89,15 @@ def run():
         network = get_address(address, prefix_length, 0)
         broadcast = get_address(address, prefix_length, 1)
         mask = '.'.join(netmask(int(prefix_length)))
+        first_address = '.'.join(get_limits(network, "first"))
+        last_address = '.'.join(get_limits(broadcast, "last"))
+        n_hosts = get_hosts(prefix_length)
         print("- Direccion de Red: " + network)
         print("- Netmask: " + mask)
+        print("- Primera direccion usable: "+ first_address)
+        print("- Ultima direccion usable: "+ last_address)
         print("- Direccion de Broadcast: " + broadcast)
+        print("- Numero de hosts: " + str(n_hosts))
     else:
         print("Direccion IP o Mascara de red incorrecta.")
 
