@@ -57,7 +57,8 @@ def netmask(prefix):
                 num_prefix = 0
         mask_list.append(octect_mask)
         octect_mask = ''
-    return mask_list
+        mask_dec = [str(to_decimal(x)) for x in mask_list]
+    return mask_dec
 
 
 def class_decimal(ip):
@@ -249,9 +250,7 @@ def run():
 
                 # Verification of prefix length
                 if prefix_length <= 32:
-                    mask_bin = netmask(prefix_length)
-                    mask_dec = [str(to_decimal(x)) for x in mask_bin]
-                    mask_str = '.'.join(mask_dec)
+                    mask_str = '.'.join(netmask(prefix_length))
                     print('Mascara de red: ' + mask_str)
                 # Wrong prefix length
                 else:
