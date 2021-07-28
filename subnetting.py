@@ -63,7 +63,7 @@ def run():
     if is_address == True and int(prefix_length) <= 32:
         network = get_address(address, prefix_length, 0)
         broadcast = get_address(address, prefix_length, 1)
-        mask = '.'.join(netmask(prefix_length))
+        mask = '.'.join(netmask(int(prefix_length)))
         print("- Direccion de Red: " + network)
         print("- Netmask: " + mask)
         print("- Direccion de Broadcast: " + broadcast)
