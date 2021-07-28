@@ -57,6 +57,9 @@ def get_limits(address, add_type):
     last_octect = int(list_address[3])
     if add_type == "first":
         last_octect += 1
+    elif add_type == "last":
+        last_octect -= 1
+        
     list_address[3] = str(last_octect)
     return list_address
     
@@ -73,8 +76,10 @@ def run():
         network = get_address(address, prefix_length, 0)
         broadcast = get_address(address, prefix_length, 1)
         first_address = '.'.join(get_limits(network, "first"))
+        last_address = '.'.join(get_limits(broadcast, "last"))
         print("- Direccion de Red: " + network)
-        print("- 1° direccion usable: "+ first_address)
+        print("- Primera direccion usable: "+ first_address)
+        print("- Ultima direccion usable: "+ last_address)
         print("- Direccion de Broadcast: " + broadcast)
     else:
         print("Direccion IP o Mascara de red incorrecta.")
