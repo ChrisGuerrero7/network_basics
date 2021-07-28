@@ -50,6 +50,15 @@ def get_address(ip, mask, netbit):
     
     ip = '.'.join(dotted_decimal('.'.join(binary_ip)))
     return ip
+
+
+def get_limits(address, add_type):
+    list_address = address.split('.')
+    last_octect = int(list_address[3])
+    if add_type == "first":
+        last_octect += 1
+    list_address[3] = str(last_octect)
+    return list_address
     
 
 def run():
@@ -63,7 +72,9 @@ def run():
     if is_address == True and int(prefix_length) <= 32:
         network = get_address(address, prefix_length, 0)
         broadcast = get_address(address, prefix_length, 1)
+        first_address = '.'.join(get_limits(network, "first"))
         print("- Direccion de Red: " + network)
+        print("- 1° direccion usable: "+ first_address)
         print("- Direccion de Broadcast: " + broadcast)
     else:
         print("Direccion IP o Mascara de red incorrecta.")
