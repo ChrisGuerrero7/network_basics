@@ -1,4 +1,5 @@
 from ip_address import class_decimal, netmask
+from subnetting import *
 
 
 def get_prefix(ip, n_host):
@@ -26,8 +27,13 @@ def run():
     prefix_length = get_prefix(network, num_host)
     mask_list = netmask(prefix_length)
     mask = '.'.join(mask_list)
+    broadcast = get_address(network, str(prefix_length), 1)
+    first_address = '.'.join(get_limits(network, "first"))
+    last_address = '.'.join(get_limits(broadcast, "last"))
     print("Prefijo de longitud: " + str(prefix_length))
     print("Netmask: " + mask)
+    print("Broadcast: " + broadcast)
+    print("Rango de IPs: " + first_address + " - " + last_address)
 
 
 if __name__ == '__main__':
