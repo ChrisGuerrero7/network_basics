@@ -21,6 +21,9 @@ def get_prefix(ip, n_host):
 
 
 def run():
+    """
+    This function allows us to find the prefix lenght, broadcast address and ip range.
+    """
     print("FLSM - Netmask")
     network = input("Indica la direccion de red: ")
     num_host = int(input("Indica el numero de host: "))
